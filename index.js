@@ -124,6 +124,7 @@ async function run() {
     res.json({admin: isAdmin})
   })
 
+  app.get('/users/:email', async(req, res)=>{})
   try {
   } finally {
     // await client.close();
