@@ -22,6 +22,7 @@ async function run() {
   const productsCollection = database.collection("AllProduct");
   const oderCollection = database.collection("AllOder");
   const usersCollection = database.collection("users");
+  const reviewCollection = database.collection("review");
 
   // POST API
   app.post("/addProducts", async (req, res) => {
@@ -105,7 +106,7 @@ async function run() {
   // admin crate
   app.put("/users/admin", async (req, res) => {
     const user = req.body;
-    console.log('put',user);
+    console.log("put", user);
     const email = { email: user.email };
     const updateDoc = { $set: { role: "admin" } };
     const result = await usersCollection.updateOne(email, updateDoc);
@@ -113,18 +114,41 @@ async function run() {
   });
 
   // GET API [fast on admin chack & admin Make new admin]
-  app.get('/users/:email', async(req, res)=>{
+  app.get("/users/:email", async (req, res) => {
     const email = req.params.email;
-    const query = { email:  email };
-    const user = await usersCollection.findOne(query)
+    const query = { email: email };
+    const user = await usersCollection.findOne(query);
     let isAdmin = false;
-    if(user?.role == 'admin'){
-      isAdmin = true
+    if (user?.role == "admin") {
+      isAdmin = true;
     }
-    res.json({admin: isAdmin})
-  })
+    res.json({ admin: isAdmin });
+  });
 
-  app.get('/users/:email', async(req, res)=>{})
+  // POST API [Review]
+  app.post("/review", async (req, res) => {
+    const review = req.body;
+    const result = await reviewCollection.insertOne(review);
+    res.json(result);
+  });
+
+  // GET API  [Review]
+  app.get("/review", async (req, res) => {
+    const cursor = reviewCollection.find({});
+    const services = await cursor.toArray();
+    res.send(services);
+  });
+
+  // DELETE Orders~
+  app.delete("/deleteProduct/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: ObjectID(id) };
+    const result = await productsCollection.deleteOne(query);
+    console.log("hjg", result);
+    res.json(result);
+  });
+
+  app.get("/users/:email", async (req, res) => {});
   try {
   } finally {
     // await client.close();
