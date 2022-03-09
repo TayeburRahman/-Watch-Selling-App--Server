@@ -5,7 +5,7 @@ I use JavaScript as the primary programming language and use React, React-Bootst
 
 LIve site: https://gifted-panini-67d23c.netlify.app/
 
-Font end: https://github.com/TayeburRahman/Watch-Selling-App-ClintSite
+Frontend: https://github.com/TayeburRahman/Watch-Selling-App-ClintSite
 
 
 Server : 
